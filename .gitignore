@@ -13,6 +13,5 @@
 
 # Dependency directories (remove the comment below to include it)
 # vendor/
-isogram/.exercism/config.json
-isogram/.exercism/metadata.json
-isogram/.vscode/launch.json
+*/.exercism/
+*/.vscode/launch.json
