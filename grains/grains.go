@@ -15,7 +15,10 @@ func Square(number int) (uint64, error) {
 }
 
 func Total() uint64 {
-	for x := 1; x <= number; x++ {
-		// unsure of how to implement this function when it takes no arguments.
+	var sum uint64
+	for x := 1; x <= 64; x++ {
+		input, _ := Square(x)
+		sum += input
 	}
+	return sum
 }
