@@ -11,9 +11,12 @@ func Valid(id string) bool {
 
 	for _, x := range id {
 		if unicode.IsDigit(x) {
-			// obviously the below line is pretty ugly. I was trying to get the Atoi function to work, but it needed a string rather than a rune
-			y, _ := strconv.Atoi(strconv.QuoteRuneToASCII(x))
+			y, _ := strconv.Atoi(string(x))
 			digits = append(digits, y)
+		} else if unicode.IsSpace(x) {
+			continue
+		} else if unicode.IsLetter(x) || unicode.IsPunct(x) || unicode.IsGraphic(x) {
+			return false
 		}
 	}
 
@@ -23,38 +26,32 @@ func Valid(id string) bool {
 		return false
 	}
 
-	var secondDigit []int
-	z := 0
-	for _, x := range digits {
-		y := digits[(len(digits) - (z + 1))]
+	var newDigits []int
 
-		if y >= 0 {
-			if z%2 != 0 {
-				secondDigit = append(secondDigit, y)
+	for i := range digits {
+		digit := digits[len(digits)-(i+1)]
+		if i%2 == 1 {
+			var doubledDigit int
+			if digit*2 > 9 {
+				doubledDigit = (digit * 2) - 9
+			} else {
+				doubledDigit = digit * 2
 			}
-			z++
+			newDigits = append(newDigits, doubledDigit)
 		} else {
-			break
+			newDigits = append(newDigits, digit)
 		}
-	}
 
-	var doubledSecondDigit []int
-	for _, x := range secondDigit {
-		var product int
-		if x*2 > 9 {
-			product = (x * 2) - 9
-		} else {
-			product = x * 2
-		}
-		doubledSecondDigit = append(doubledSecondDigit, product)
 	}
 
 	var sum int
 
-	for _, x := range doubledSecondDigit {
+	for _, x := range newDigits {
 		sum = sum + x
 	}
+
 	var ifValid bool
+
 	if sum%10 == 0 {
 		ifValid = true
 	} else if sum%10 != 0 {
