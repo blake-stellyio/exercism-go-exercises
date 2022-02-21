@@ -1,6 +1,7 @@
 package luhn
 
 import (
+	"strconv"
 	"unicode"
 )
 
@@ -10,7 +11,8 @@ func Valid(id string) bool {
 
 	for _, x := range id {
 		if unicode.IsDigit(x) {
-			y := int(x)
+			// obviously the below line is pretty ugly. I was trying to get the Atoi function to work, but it needed a string rather than a rune
+			y, _ := strconv.Atoi(strconv.QuoteRuneToASCII(x))
 			digits = append(digits, y)
 		}
 	}
@@ -23,7 +25,7 @@ func Valid(id string) bool {
 
 	var secondDigit []int
 	z := 0
-	for {
+	for _, x := range digits {
 		y := digits[(len(digits) - (z + 1))]
 
 		if y >= 0 {
@@ -38,9 +40,17 @@ func Valid(id string) bool {
 
 	var doubledSecondDigit []int
 	for _, x := range secondDigit {
-		doubledSecondDigit = append(doubledSecondDigit, x*2)
+		var product int
+		if x*2 > 9 {
+			product = (x * 2) - 9
+		} else {
+			product = x * 2
+		}
+		doubledSecondDigit = append(doubledSecondDigit, product)
 	}
+
 	var sum int
+
 	for _, x := range doubledSecondDigit {
 		sum = sum + x
 	}
