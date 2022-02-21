@@ -1,5 +1,9 @@
 package thefarm
 
+import (
+	"errors"
+)
+
 // See types.go for the types defined for this exercise.
 
 // TODO: Define the SillyNephewError type here.
