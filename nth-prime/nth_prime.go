@@ -1,25 +1,24 @@
 package prime
 
 func Nth(n int) (int, bool) {
-	var qtyPrimes int
-	var result int
-	for x := 2; qtyPrimes <= n; x++ {
-		if isPrime(x) {
-			qtyPrimes = +1
-		}
-		if isPrime(x) || qtyPrimes == n {
-			result = x
-			break
-		}
+	if n == 0 {
+		return 0, false
 	}
-	return result, true
+	qtyPrimes := 1
+	for x := 2; ; x++ {
+		if isPrime(x) {
+			if qtyPrimes == n {
+				return x, true
+			} else {
+				qtyPrimes++
+			}
+		}
+
+	}
 }
 
 func isPrime(p int) bool {
 	for x := 2; x < p; x++ {
-		if p == 2 {
-			return true
-		}
 		if p%x == 0 {
 			return false
 		}
