@@ -2,7 +2,6 @@ package lsproduct
 
 import (
 	"errors"
-	// "fmt"
 	"strconv"
 	"unicode"
 )
@@ -34,19 +33,14 @@ func LargestSeriesProduct(digits string, span int) (int64, error) {
 		digitSlice = append(digitSlice, x)
 	}
 
-	// fmt.Println("digit slice", digitSlice)
-
 	var largestProduct int = 0
 
 	for x := range digitSlice {
 		var tempFactors []int
-		for z := x; z <= x+span-1; z++ {
-			if z > len(digitSlice)-1 {
-				break
-			}
-			tempFactors = append(tempFactors, digitSlice[z])
+		if x+span > len(digitSlice) {
+			break
 		}
-		// fmt.Println("temp factors", tempFactors)
+		tempFactors = digitSlice[x : x+span]
 		var product int = 1
 		if len(tempFactors) == span {
 			for _, q := range tempFactors {
