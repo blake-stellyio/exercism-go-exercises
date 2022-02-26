@@ -1,4 +1,4 @@
-# Pythagorean Triplet
+g# Pythagorean Triplet
 
 Welcome to Pythagorean Triplet on Exercism's Go Track.
 If you need help running the tests or submitting your code, check out `HELP.md`.
