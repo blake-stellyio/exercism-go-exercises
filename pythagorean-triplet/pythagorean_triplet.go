@@ -34,8 +34,8 @@ func Range(min, max int) []Triplet {
 // Sum returns a list of all Pythagorean triplets with a certain perimeter.
 func Sum(p int) []Triplet {
 	var output []Triplet
-	for a := 1; a < p-2; a++ {
-		for b := a + 1; b < p-1; b++ {
+	for a := 1; a <= p/3; a++ {
+		for b := a + 1; b <= p/2; b++ {
 			c := p - (a + b)
 			if (a*a)+(b*b) == c*c && a+b+c == p {
 				output = append(output, []int{a, b, c})
