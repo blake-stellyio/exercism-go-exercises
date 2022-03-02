@@ -7,10 +7,6 @@ import (
 
 func IsNumber(n int) bool {
 
-	if n == 0 {
-		return true
-	}
-
 	nString := fmt.Sprintln(n)
 	var digits []float64
 
