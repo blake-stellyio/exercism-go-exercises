@@ -39,4 +39,4 @@ func Detect(subject string, candidates []string) []string {
 
 	}
 	return anagams
-}
+} 
