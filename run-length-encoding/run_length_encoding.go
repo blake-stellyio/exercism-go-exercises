@@ -25,6 +25,10 @@ func RunLengthEncode(input string) string {
 			counter = 1
 		}
 
+		if currentLetter == string(x) && i != 0 {
+			counter++
+		}
+
 		if string(x) != currentLetter {
 			if counter == 1 {
 				output = append(output, currentLetter)
@@ -34,10 +38,6 @@ func RunLengthEncode(input string) string {
 			counter = 1
 			currentLetter = string(x)
 			continue
-		}
-
-		if currentLetter == string(x) && i != 0 {
-			counter++
 		}
 
 		if i == len(input)-1 {
