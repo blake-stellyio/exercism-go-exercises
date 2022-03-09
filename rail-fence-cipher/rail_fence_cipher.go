@@ -65,8 +65,8 @@ func Decode(message string, rails int) string {
 		if i < outside+remainder-1 {
 			railsDec[1] = append(railsDec[1], string(x))
 		}
-		if i >= (outside+remainder-1) && i <= len(message)-(outside) && rails-2 > 0 {
-			if counter <= inside {
+		if i >= (outside+remainder-1) && i < len(message)-(outside) && rails-2 > 0 {
+			if counter <= inside+remainder {
 				railsDec[whichInside] = append(railsDec[whichInside], string(x))
 				counter++
 				continue
@@ -78,7 +78,7 @@ func Decode(message string, rails int) string {
 			}
 		}
 
-		if i > len(message)-(outside) {
+		if i >= len(message)-(outside) {
 			railsDec[rails] = append(railsDec[rails], string(x))
 		}
 
@@ -92,20 +92,18 @@ func Decode(message string, rails int) string {
 	var previousCounter int
 
 	for x := 0; x <= len(message); x++ {
+
 		if counter == 1 {
+			fmt.Println(railsDec[1][x])
 			output = append(output, railsDec[1][x])
 			previousCounter = counter
 			counter++
 		}
 
-		if counter == rails {
-			output = append(output, railsDec[rails][x])
-			previousCounter = counter
-			counter--
-		}
-
 		if previousCounter < counter && counter != rails && counter != 1 && rails-2 > 0 {
 			for j := 2; j <= rails-1; j++ {
+				fmt.Println("Made it here, j:", j)
+				fmt.Println(railsDec[j][x])
 				output = append(output, railsDec[j][x])
 				previousCounter = counter
 				counter++
@@ -114,11 +112,22 @@ func Decode(message string, rails int) string {
 
 		if previousCounter > counter && counter != rails && counter != 1 && rails-2 > 0 {
 			for j := 2; j <= rails-1; j++ {
-				output = append(output, railsDec[j-rails+1][x])
+				fmt.Println("Made it there, j:", j)
+				fmt.Println(railsDec[rails-j+1][x])
+				output = append(output, railsDec[rails-j+1][x])
 				previousCounter = counter
 				counter--
 			}
 		}
+
+		if counter == rails {
+			fmt.Println(railsDec[rails][x])
+			output = append(output, railsDec[rails][x])
+			previousCounter = counter
+			counter--
+		}
+
+		fmt.Println("Output: ", output, "Counter: ", counter, "x: ", x)
 	}
 	fmt.Println(output)
 
