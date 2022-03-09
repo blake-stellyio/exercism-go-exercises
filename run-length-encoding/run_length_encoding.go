@@ -1,9 +1,6 @@
 package encode
 
 import (
-	"fmt"
-	"strconv"
-	"strings"
 	"unicode"
 )
 
@@ -13,35 +10,36 @@ func RunLengthEncode(input string) string {
 		return ""
 	}
 
-	var output []string
+	var output []rune
 	var counter int
-	var currentLetter string
-	var lastLetter string
+	var currentLetter rune
+	var lastLetter rune
 
 	for i, x := range input {
 
 		if i == 0 {
-			currentLetter = string(x)
+			currentLetter = x
 			counter = 1
 		}
 
-		if currentLetter == string(x) && i != 0 {
+		if currentLetter == x && i != 0 {
 			counter++
 		}
 
-		if string(x) != currentLetter {
+		if x != currentLetter {
 			if counter == 1 {
 				output = append(output, currentLetter)
 			} else {
-				output = append(output, (fmt.Sprintf("%d%s", counter, currentLetter)))
+				output = append(output, rune(counter+'0'))
+				output = append(output, currentLetter)
 			}
 			counter = 1
-			currentLetter = string(x)
+			currentLetter = x
 			continue
 		}
 
 		if i == len(input)-1 {
-			lastLetter = string(x)
+			lastLetter = x
 		}
 	}
 
@@ -49,12 +47,15 @@ func RunLengthEncode(input string) string {
 		if counter == 1 {
 			output = append(output, currentLetter)
 		} else {
-			output = append(output, (fmt.Sprintf("%d%s", counter, currentLetter)))
+			output = append(output, rune(counter+'0'))
+			output = append(output, currentLetter)
+
 		}
 	} else {
-		output = append(output, (fmt.Sprintf("%d%s", counter, lastLetter)))
+		output = append(output, rune(counter+'0'))
+		output = append(output, lastLetter)
 	}
-	return strings.Join(output, "")
+	return string(output)
 }
 
 func RunLengthDecode(input string) string {
@@ -63,37 +64,37 @@ func RunLengthDecode(input string) string {
 		return ""
 	}
 
-	var previousIsNumber bool = false
+	var previousIsNumber bool
 	var previousNumber int
-	var output []string
+	var output []rune
 
 	for _, x := range input {
 
 		if unicode.IsDigit(x) && !previousIsNumber {
 			previousIsNumber = true
-			previousNumber, _ = strconv.Atoi(string(x))
+			previousNumber = int(x - '0')
 			continue
 		}
 
 		if unicode.IsDigit(x) && previousIsNumber {
-			previousNumber, _ = strconv.Atoi(fmt.Sprintf("%d%s", previousNumber, string(x)))
+			previousNumber = int(x - '0')
 			previousIsNumber = true
 			continue
 		}
 
 		if previousIsNumber && !unicode.IsDigit(x) {
 			for j := 1; j <= previousNumber; j++ {
-				output = append(output, string(x))
+				output = append(output, x)
 			}
 			previousIsNumber = false
 			continue
 		}
 
 		if !previousIsNumber && (unicode.IsLetter(x) || unicode.IsSpace(x)) {
-			output = append(output, string(x))
+			output = append(output, x)
 		}
 
 	}
 
-	return strings.Join(output, "")
+	return string(output)
 }
