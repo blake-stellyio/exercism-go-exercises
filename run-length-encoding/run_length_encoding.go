@@ -1,6 +1,7 @@
 package encode
 
 import (
+	"strconv"
 	"unicode"
 )
 
@@ -30,8 +31,7 @@ func RunLengthEncode(input string) string {
 			if counter == 1 {
 				output = append(output, currentLetter)
 			} else {
-				output = append(output, rune(counter+'0'))
-				output = append(output, currentLetter)
+				output = AppendCounterAndLetter(counter, currentLetter, output)
 			}
 			counter = 1
 			currentLetter = x
@@ -47,13 +47,10 @@ func RunLengthEncode(input string) string {
 		if counter == 1 {
 			output = append(output, currentLetter)
 		} else {
-			output = append(output, rune(counter+'0'))
-			output = append(output, currentLetter)
-
+			output = AppendCounterAndLetter(counter, currentLetter, output)
 		}
 	} else {
-		output = append(output, rune(counter+'0'))
-		output = append(output, lastLetter)
+		output = AppendCounterAndLetter(counter, lastLetter, output)
 	}
 	return string(output)
 }
@@ -77,7 +74,7 @@ func RunLengthDecode(input string) string {
 		}
 
 		if unicode.IsDigit(x) && previousIsNumber {
-			previousNumber = int(x - '0')
+			previousNumber = int(x-'0') + previousNumber*10
 			previousIsNumber = true
 			continue
 		}
@@ -97,4 +94,21 @@ func RunLengthDecode(input string) string {
 	}
 
 	return string(output)
+}
+
+func AppendCounterAndLetter(counter int, letter rune, output []rune) []rune {
+	if counter >= 10 {
+		number := strconv.Itoa(counter)
+		var numberSlice []rune
+		for _, x := range number {
+			numberSlice = append(numberSlice, x)
+		}
+		output = append(output, numberSlice...)
+	} else {
+		output = append(output, rune(counter+'0'))
+	}
+
+	output = append(output, letter)
+
+	return output
 }
