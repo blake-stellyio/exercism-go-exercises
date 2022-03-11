@@ -6,18 +6,28 @@ func SearchInts(list []int, key int) int {
 		return -1
 	}
 
-	if key >= list[len(list)/2] {
-		for i := len(list) / 2; i <= len(list)-1; i++ {
-			if list[i] == key {
-				return i
-			}
+	low, high := 0, len(list)-1
+	mid := low + (high-low)/2
+
+	for i := 0; i <= (len(list) / 2); i++ {
+
+		switch {
+		case key > list[mid]:
+			low = mid
+		case key < list[mid]:
+			high = mid
 		}
-	} else {
-		for i := 0; i <= len(list)-1; i++ {
-			if list[i] == key {
-				return i
-			}
+
+		if key == list[mid] {
+			return mid
+		}
+
+		if mid == len(list)-2 {
+			mid++
+		} else {
+			mid = low + (high-low)/2
 		}
 	}
+
 	return -1
 }
