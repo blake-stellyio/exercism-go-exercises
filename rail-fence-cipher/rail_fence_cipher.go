@@ -9,13 +9,6 @@ func Encode(message string, rails int) string {
 
 	railsIdent := make(map[int][]string)
 
-	// for i, x := range message {
-	// 	railsIdent[i%rails] = append(railsIdent[i%rails], string(x))
-
-	// }
-
-	// fmt.Println(railsIdent)
-
 	var counter int = 1
 	var previousCounter int
 
@@ -86,50 +79,23 @@ func Decode(message string, rails int) string {
 
 	fmt.Println(railsDec)
 
+	position := 0
+	counter = 1
+	previousCounter := 0
 	var output []string
 
-	counter = 1
-	var previousCounter int
+	for x := 0; x <= inside-1; x++ {
 
-	for x := 0; x <= len(message); x++ {
-
-		if counter == 1 {
-			fmt.Println(railsDec[1][x])
+		if x == 0 {
 			output = append(output, railsDec[1][x])
-			previousCounter = counter
-			counter++
+			continue
 		}
 
-		if previousCounter < counter && counter != rails && counter != 1 && rails-2 > 0 {
-			for j := 2; j <= rails-1; j++ {
-				fmt.Println("Made it here, j:", j)
-				fmt.Println(railsDec[j][x])
-				output = append(output, railsDec[j][x])
-				previousCounter = counter
-				counter++
-			}
+		for i := 1; railsDec[i][0] != ""; i++ {
+
 		}
 
-		if previousCounter > counter && counter != rails && counter != 1 && rails-2 > 0 {
-			for j := 2; j <= rails-1; j++ {
-				fmt.Println("Made it there, j:", j)
-				fmt.Println(railsDec[rails-j+1][x])
-				output = append(output, railsDec[rails-j+1][x])
-				previousCounter = counter
-				counter--
-			}
-		}
-
-		if counter == rails {
-			fmt.Println(railsDec[rails][x])
-			output = append(output, railsDec[rails][x])
-			previousCounter = counter
-			counter--
-		}
-
-		fmt.Println("Output: ", output, "Counter: ", counter, "x: ", x)
 	}
-	fmt.Println(output)
 
 	return strings.Join(output, "")
 }

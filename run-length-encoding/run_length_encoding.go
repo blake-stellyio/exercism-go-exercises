@@ -2,6 +2,7 @@ package encode
 
 import (
 	"strconv"
+	"strings"
 	"unicode"
 )
 
@@ -11,10 +12,9 @@ func RunLengthEncode(input string) string {
 		return ""
 	}
 
-	var output []rune
+	var output strings.Builder
 	var counter int
 	var currentLetter rune
-	var lastLetter rune
 
 	for i, x := range input {
 
@@ -28,31 +28,18 @@ func RunLengthEncode(input string) string {
 		}
 
 		if x != currentLetter {
-			if counter == 1 {
-				output = append(output, currentLetter)
-			} else {
-				output = AppendCounterAndLetter(counter, currentLetter, output)
-			}
+			output.WriteString(AppendCounterAndLetter(counter, currentLetter))
 			counter = 1
 			currentLetter = x
 			continue
 		}
 
-		if i == len(input)-1 {
-			lastLetter = x
-		}
 	}
 
-	if currentLetter != lastLetter {
-		if counter == 1 {
-			output = append(output, currentLetter)
-		} else {
-			output = AppendCounterAndLetter(counter, currentLetter, output)
-		}
-	} else {
-		output = AppendCounterAndLetter(counter, lastLetter, output)
-	}
-	return string(output)
+	output.WriteString(AppendCounterAndLetter(counter, currentLetter))
+
+	return output.String()
+
 }
 
 func RunLengthDecode(input string) string {
@@ -63,7 +50,7 @@ func RunLengthDecode(input string) string {
 
 	var previousIsNumber bool
 	var previousNumber int
-	var output []rune
+	var output strings.Builder
 
 	for _, x := range input {
 
@@ -81,34 +68,28 @@ func RunLengthDecode(input string) string {
 
 		if previousIsNumber && !unicode.IsDigit(x) {
 			for j := 1; j <= previousNumber; j++ {
-				output = append(output, x)
+				output.WriteRune(x)
 			}
 			previousIsNumber = false
 			continue
 		}
 
 		if !previousIsNumber && (unicode.IsLetter(x) || unicode.IsSpace(x)) {
-			output = append(output, x)
+			output.WriteRune(x)
 		}
 
 	}
 
-	return string(output)
+	return output.String()
 }
 
-func AppendCounterAndLetter(counter int, letter rune, output []rune) []rune {
-	if counter >= 10 {
+func AppendCounterAndLetter(counter int, letter rune) string {
+	var output string
+	if counter > 1 {
 		number := strconv.Itoa(counter)
-		var numberSlice []rune
-		for _, x := range number {
-			numberSlice = append(numberSlice, x)
-		}
-		output = append(output, numberSlice...)
+		output = number + string(letter)
 	} else {
-		output = append(output, rune(counter+'0'))
+		output = string(letter)
 	}
-
-	output = append(output, letter)
-
 	return output
 }
