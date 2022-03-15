@@ -31,7 +31,6 @@ func RunLengthEncode(input string) string {
 			output.WriteString(AppendCounterAndLetter(counter, currentLetter))
 			counter = 1
 			currentLetter = x
-			continue
 		}
 
 	}

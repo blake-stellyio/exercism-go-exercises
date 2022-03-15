@@ -79,20 +79,29 @@ func Decode(message string, rails int) string {
 
 	fmt.Println(railsDec)
 
-	position := 0
-	counter = 1
-	previousCounter := 0
+	counter1 := 1
+	counter2 := 1
+	counter := 1
+
 	var output []string
 
 	for x := 0; x <= inside-1; x++ {
 
-		if x == 0 {
-			output = append(output, railsDec[1][x])
-			continue
+		for i := 2; i <= rails && x%2 == 0; i++ {
+			fmt.Println("made it to the odds, X:", x)
+			fmt.Println(len(railsDec[i]))
+			if x < len(railsDec[i]) {
+				fmt.Println("True")
+				output = append(output, railsDec[i][x])
+			}
+			fmt.Println(output)
 		}
 
-		for i := 1; railsDec[i][0] != ""; i++ {
-
+		for i := rails - 1; i >= 1 && x%2 == 0 && x != 0; i-- {
+			fmt.Println("made it to the evens, X:", x)
+			if x < len(railsDec[i]) {
+				output = append(output, railsDec[i][x])
+			}
 		}
 
 	}
