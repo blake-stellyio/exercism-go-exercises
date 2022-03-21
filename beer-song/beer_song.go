@@ -35,13 +35,13 @@ func Verse(n int) (string, error) {
 	bottles1, bottles2, takeDown := count+p, count2+p, "Take one down and pass it around,"
 	bottlesFor0 := bottles1
 
-	switch {
-	case n == 2:
+	switch n {
+	case 2:
 		bottles2 = count2 + s
-	case n == 1:
+	case 1:
 		bottles1, bottles2, takeDown = count+s, "no more"+p, "Take it down and pass it around,"
 		bottlesFor0 = bottles1
-	case n == 0:
+	case 0:
 		bottles1, bottlesFor0, bottles2, takeDown = "No more"+p, "no more"+p, "99"+p, "Go to the store and buy some more,"
 	}
 
