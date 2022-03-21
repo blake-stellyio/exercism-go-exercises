@@ -33,7 +33,7 @@ func (r *Robot) Name() (string, error) {
 			output.WriteByte(alphabet[rand.Intn(26)])
 		}
 
-		output.WriteString(strconv.Itoa(rand.Intn(899) + 100))
+		output.WriteString(strconv.Itoa(rand.Intn(900) + 100))
 
 		if !robotDB[output.String()] {
 			robotDB[output.String()] = true
