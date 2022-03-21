@@ -1,8 +1,8 @@
 package robotname
 
 import (
-	// "fmt"
 	"errors"
+	"fmt"
 	"math/rand"
 	"strconv"
 	"strings"
@@ -22,6 +22,10 @@ func (r *Robot) Name() (string, error) {
 		return "", errors.New("name capacity exhausted")
 	}
 
+	if *r != "" {
+		return string(*r), nil
+	}
+
 	var output strings.Builder
 	for {
 
@@ -38,12 +42,12 @@ func (r *Robot) Name() (string, error) {
 		}
 		output.Reset()
 	}
-	// r = Robot(output.String())
+	*r = Robot(output.String())
 	return output.String(), nil
 }
 
 func (r *Robot) Reset() {
-	// robotDB[fmt.Sprint(r)] = false
+	robotDB[fmt.Sprint(r)] = false
 	*r = ""
 	r.Name()
 }
