@@ -30,10 +30,10 @@ func (r *Robot) Name() (string, error) {
 	for {
 
 		for i := 1; i <= 2; i++ {
-			output.WriteByte(alphabet[rand.Intn(25)])
+			output.WriteByte(alphabet[rand.Intn(26)])
 		}
 
-		output.WriteString(strconv.Itoa(rand.Intn(999-100) + 100))
+		output.WriteString(strconv.Itoa(rand.Intn(899) + 100))
 
 		if !robotDB[output.String()] {
 			robotDB[output.String()] = true
