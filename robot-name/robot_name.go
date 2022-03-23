@@ -30,6 +30,7 @@ func (r *Robot) Name() (string, error) {
 
 	if !namesGenerated {
 		numberDB = GenerateNumbers()
+		namesGenerated = true
 	}
 
 	var output strings.Builder
