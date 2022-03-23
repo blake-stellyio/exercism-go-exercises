@@ -1,7 +1,7 @@
 package robotname
 
 import (
-	// "errors"
+	"errors"
 	"fmt"
 	"math/rand"
 	"strconv"
@@ -17,12 +17,12 @@ var robotDB map[string]bool = make(map[string]bool, capacity)
 
 func (r *Robot) Name() (string, error) {
 
-	// if len(robotDB) >= capacity {
-	// 	return "", errors.New("name capacity exhausted")
-	// }
-
 	if *r != "" {
 		return string(*r), nil
+	}
+
+	if len(robotDB) >= capacity {
+		return "", errors.New("name capacity exhausted")
 	}
 
 	var output strings.Builder
@@ -47,7 +47,6 @@ func (r *Robot) Name() (string, error) {
 }
 
 func (r *Robot) Reset() {
-	robotDB[fmt.Sprint(r)] = false
 	*r = ""
-	// r.Name()
+	r.Name()
 }
