@@ -29,4 +29,5 @@ func ColorCode(color string) int {
 	case "white":
 		return 9
 	}
+	return -1
 }
